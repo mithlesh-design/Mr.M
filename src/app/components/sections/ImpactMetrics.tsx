@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { useSound } from '../../audio/AudioSystem';
 import {
   motion, useSpring, useTransform, useMotionValue,
   useMotionTemplate,
@@ -229,7 +228,6 @@ function StatCard({
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const { play } = useSound();
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
   const springX = useSpring(mouseX, { stiffness: 150, damping: 20 });
@@ -259,7 +257,7 @@ function StatCard({
           ? { duration: 0 }
           : { delay: index * 0.12, duration: 0.65, ease: EASE_CINEMATIC }
       }
-      onMouseEnter={() => { setIsHovered(true); play('hover'); }}
+      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => { setIsHovered(false); mouseX.set(0.5); mouseY.set(0.5); }}
       onMouseMove={handleMouseMove}
     >

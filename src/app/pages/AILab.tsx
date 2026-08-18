@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FlaskConical, Atom, Eye, BrainCircuit, Zap, Bot, Cpu, Sparkles, ArrowRight, Lock } from 'lucide-react';
-import { useSound } from '../audio/AudioSystem';
 
 const experiments = [
   { 
@@ -51,7 +50,6 @@ const statusColors: Record<string, string> = {
 
 export default function AILab() {
   const [expandedExp, setExpandedExp] = useState<number | null>(null);
-  const { play } = useSound();
 
   React.useEffect(() => {
     document.title = 'AI Lab | Mithlesh Mishra — Neural Experiments';
@@ -121,7 +119,7 @@ export default function AILab() {
                 }`}
                 aria-expanded={expandedExp === exp.id}
                 aria-label={`Toggle details for ${exp.title}`}
-                onClick={() => { play('click'); setExpandedExp(expandedExp === exp.id ? null : exp.id); }}
+                onClick={() => setExpandedExp(expandedExp === exp.id ? null : exp.id)}
               >
                 {/* Card header accent bar */}
                 <div 

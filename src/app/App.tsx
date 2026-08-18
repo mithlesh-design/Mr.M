@@ -3,7 +3,6 @@ import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import BootIntro from './components/sections/BootIntro';
 import { AnimatePresence } from 'motion/react';
 import { PrecisionModeProvider } from './context/PrecisionModeContext';
-import { SoundProvider } from './audio/AudioSystem';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
 
 /* ── Lazy-loaded pages (code-split on navigation) ─────────────────────── */
@@ -93,9 +92,7 @@ export default function App() {
   return (
     <HashRouter>
       <PrecisionModeProvider>
-        <SoundProvider>
-          <AppContent />
-        </SoundProvider>
+        <AppContent />
       </PrecisionModeProvider>
     </HashRouter>
   );

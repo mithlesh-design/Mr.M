@@ -3,12 +3,10 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, ArrowRight, Target, Layers, Zap, CheckCircle, FileText, Clock, User, Wrench, Terminal } from 'lucide-react';
 import { getMissionBySlug, allMissions } from '../data/missions';
-import { useSound } from '../audio/AudioSystem';
 
 export default function MissionDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { play } = useSound();
   const mission = getMissionBySlug(slug || '');
   const [isDecrypting, setIsDecrypting] = useState(true);
   const [activeGallery, setActiveGallery] = useState(0);
@@ -24,12 +22,12 @@ export default function MissionDetail() {
     if (mission) {
       document.title = `${mission.title} | Mission File ${mission.code}`;
     }
-    const timer = setTimeout(() => { play('bootComplete'); setIsDecrypting(false); }, 900);
+    const timer = setTimeout(() => setIsDecrypting(false), 900);
     return () => {
       clearTimeout(timer);
       document.title = 'Mithlesh Mishra | Senior UX Designer & Product Strategist';
     };
-  }, [mission, play]);
+  }, [mission]);
 
   // Find adjacent missions for nav
   const currentIndex = allMissions.findIndex(m => m.slug === slug);
@@ -443,7 +441,7 @@ export default function MissionDetail() {
                 {mission.gallery.map((item, i) => (
                   <button
                     key={i}
-                    onClick={() => { play('click'); setActiveGallery(i); }}
+                    onClick={() => setActiveGallery(i)}
                     className="relative overflow-hidden flex-1 transition-all duration-200"
                     style={{
                       aspectRatio: '16/9',

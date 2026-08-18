@@ -4,7 +4,6 @@ import {
   Compass, PenTool, Layers, Cpu, Search, Zap, Code, Target,
   ArrowRight,
 } from 'lucide-react';
-import { useSound } from '../../audio/AudioSystem';
 import operativeImg from '@/assets/eb361c490c8f064b7012dac934f5a70d457978dc.png';
 import { useIsMobile } from '../ui/use-mobile';
 
@@ -82,7 +81,6 @@ const PARTICLES = Array.from({ length: 11 }, (_, i) => ({
 //  COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function ArsenalSection() {
-  const { play } = useSound();
   const [activeService, setActiveService] = useState<string | null>(null);
 
   /* -- Mobile detection (reactive) -- */
@@ -217,7 +215,6 @@ export default function ArsenalSection() {
                 isActive={activeService === service.id}
                 onTap={() => {
                   setActiveService(prev => (prev === service.id ? null : service.id));
-                  play('moduleDeploy');
                 }}
                 isSmallMobile={isSmallMobile}
               />
@@ -463,7 +460,6 @@ export default function ArsenalSection() {
                   isOtherActive={activeService !== null && activeService !== service.id}
                   onHover={() => {
                     setActiveService(service.id);
-                    play('systemModuleOnline');
                   }}
                   onLeave={() => setActiveService(null)}
                   isSmallMobile={isSmallMobile}
@@ -681,7 +677,6 @@ export default function ArsenalSection() {
                   isOtherActive={activeService !== null && activeService !== service.id}
                   onHover={() => {
                     setActiveService(service.id);
-                    play('systemModuleOnline');
                   }}
                   onLeave={() => setActiveService(null)}
                   isSmallMobile={isSmallMobile}
@@ -709,7 +704,6 @@ export default function ArsenalSection() {
               gap: '0.75rem',
               textDecoration: 'none',
             }}
-            onMouseEnter={() => play('ctaHover')}
           >
             <span className="font-ui font-bold uppercase text-gray-400 group-hover:text-white transition-colors duration-200" style={{ fontSize: '11px', letterSpacing: '0.16em' }}>
               Explore Full Arsenal

@@ -1,9 +1,8 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Github, Linkedin, Power, Wifi, Home, User, Target, Crosshair, Cpu, Phone, Mail, Signal, Volume2, VolumeX } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Power, Wifi, Home, User, Target, Crosshair, Cpu, Phone, Mail, Signal } from 'lucide-react';
 import { usePrecisionMode } from '../../context/PrecisionModeContext';
-import { useSound } from '../../audio/AudioSystem';
 import MmLogo from '../../assets/icons/MmLogo';
 
 const IntelOverlay = lazy(() =>
@@ -33,7 +32,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const { mode, toggleMode, setMode } = usePrecisionMode();
-  const { play, muted, toggleMute } = useSound();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -58,7 +56,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, [mode, setMode]);
 
   const handleNavClick = (id: string) => {
-    play('navClick');
     setIsMobileMenuOpen(false);
     if (location.pathname !== '/') {
       sessionStorage.setItem(PENDING_SCROLL_KEY, id);
@@ -121,8 +118,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <Link
                     key={link.href}
                     to={link.href}
-                    onClick={() => play('navClick')}
-                    onMouseEnter={() => play('hover')}
                     className="relative group h-[70px] flex items-center justify-center"
                     aria-current={isActive ? 'page' : undefined}
                   >
@@ -139,23 +134,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
             {/* Right Actions */}
             <div className="hidden md:flex items-center gap-4">
 
-              {/* Sound Toggle */}
-              <button
-                onClick={toggleMute}
-                onMouseEnter={() => play('hover')}
-                className={`h-[32px] w-[32px] border flex items-center justify-center transition-all duration-200 ${muted
-                    ? 'border-white/10 hover:border-[#FF2A2A]/30 hover:bg-white/[0.03]'
-                    : 'border-white/10 hover:border-[#00D1FF]/30 hover:bg-white/[0.03]'
-                  }`}
-                aria-label={muted ? 'Unmute audio feed' : 'Mute audio feed'}
-                title={muted ? 'Unmute audio feed' : 'Mute audio feed'}
-              >
-                {muted
-                  ? <VolumeX className="w-3.5 h-3.5 text-gray-600 hover:text-[#FF2A2A] transition-colors" />
-                  : <Volume2 className="w-3.5 h-3.5 text-gray-500 hover:text-[#00D1FF] transition-colors" />
-                }
-              </button>
-
               {/* Online Status Pill */}
               <div className="bg-[#0A0A0A] px-4 h-[32px] border border-white/5 flex items-center gap-3 relative overflow-hidden group hover:border-[#00D1FF]/30 transition-colors duration-300">
                 <div className="w-1.5 h-1.5 bg-[#00D1FF] shadow-[0_0_8px_#00D1FF] shrink-0 animate-pulse" />
@@ -166,11 +144,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
               {/* Story/Intel Toggle */}
               <button
-                onClick={() => {
-                  play(mode === 'INTEL' ? 'intelDeactivate' : 'intelActivate');
-                  toggleMode();
-                }}
-                onMouseEnter={() => play('hover')}
+                onClick={toggleMode}
                 className={`h-[32px] px-3 border flex items-center gap-2 transition-all duration-200 group relative overflow-hidden ${mode === 'INTEL'
                     ? 'border-[#00D1FF]/50 bg-[#00D1FF]/10 hover:bg-[#00D1FF]/15 shadow-[0_0_12px_rgba(0,209,255,0.12)]'
                     : 'border-white/10 hover:bg-white/5 hover:border-[#00D1FF]/30'
@@ -203,8 +177,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
               {/* Uplink Button */}
               <Link
                 to="/contact"
-                onClick={() => play('navClick')}
-                onMouseEnter={() => play('hover')}
                 className="h-[32px] px-5 border border-[#FF2A2A]/30 flex items-center gap-2 hover:bg-[#FF2A2A] hover:border-[#FF2A2A] transition-all duration-200 group relative overflow-hidden"
               >
                 <span className="font-ui font-bold text-[#FF2A2A] text-[10px] tracking-[0.1em] uppercase relative z-10 flex items-center gap-2 group-hover:text-white transition-colors">
@@ -301,7 +273,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <a
                 href="tel:+917985203818"
                 className="group relative overflow-hidden transition-all duration-300 bg-[#0A0A0A] border border-white/[0.06] px-6 py-5 hover:border-[#FF2A2A]/30 hover:shadow-[0_0_30px_rgba(255,42,42,0.08),inset_0_0_30px_rgba(255,42,42,0.02)]"
-                onMouseEnter={() => play('hover')}
               >
                 {/* Corner accent */}
                 <div className="absolute top-0 left-0 w-[2px] h-6 bg-[#FF2A2A] opacity-60" style={{ boxShadow: '0 0 6px rgba(255,42,42,0.4)' }} />
@@ -342,7 +313,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <a
                 href="mailto:mr.mishra.ux@gmail.com"
                 className="group relative overflow-hidden transition-all duration-300 bg-[#0A0A0A] border border-white/[0.06] px-6 py-5 hover:border-[#00D1FF]/30 hover:shadow-[0_0_30px_rgba(0,209,255,0.08),inset_0_0_30px_rgba(0,209,255,0.02)]"
-                onMouseEnter={() => play('hover')}
               >
                 {/* Corner accent */}
                 <div className="absolute top-0 left-0 w-[2px] h-6 bg-[#00D1FF] opacity-60" style={{ boxShadow: '0 0 6px rgba(0,209,255,0.4)' }} />

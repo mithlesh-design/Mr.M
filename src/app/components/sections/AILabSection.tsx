@@ -3,10 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { BrainCircuit, Cpu, Zap, Activity, Globe, Bot, Sparkles, Terminal } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { DepthCard } from '../ui/DepthCard';
-import { useSound } from '../../audio/AudioSystem';
 
 export default function AILabSection() {
-  const { play } = useSound();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedOutput, setGeneratedOutput] = useState<string | null>(null);
   const generateTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -23,13 +21,11 @@ export default function AILabSection() {
   const handleGenerate = () => {
     if (isGenerating) return;
     clearGenerateTimer();
-    play('click');
     setIsGenerating(true);
     setGeneratedOutput(null);
     generateTimerRef.current = setTimeout(() => {
       generateTimerRef.current = null;
       setIsGenerating(false);
-      play('success');
       setGeneratedOutput("OPTIMIZATION COMPLETE: User retention vectors align with high-intent pathways. Suggested intervention: Reduce friction in primary conversion loop by 14%.");
     }, 2500);
   };
@@ -92,7 +88,6 @@ export default function AILabSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
                         className="flex items-center gap-3 p-3 sm:p-4 bg-[#0A0A0A] border border-white/5 hover:border-[#00D1FF]/30 hover:bg-[#00D1FF]/5 transition-all group cursor-default"
-                        onMouseEnter={() => play('hover')}
                       >
                          <item.icon className="w-5 h-5 flex-shrink-0 text-gray-500 group-hover:text-[#00D1FF] transition-colors" />
                          <span className="text-sm text-gray-400 group-hover:text-white font-mono uppercase tracking-tight">{item.label}</span>

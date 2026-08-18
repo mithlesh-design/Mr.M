@@ -19,8 +19,6 @@ interface UseSecureUplinkFlowOptions {
   initialPrompt?: string;
   stepDelayMs?: number;
   sendDelayMs?: number;
-  onTransmit?: () => void;
-  onSuccess?: () => void;
 }
 
 const DEFAULT_PROMPT = 'Secure channel established. Please identify yourself (Name / Org).';
@@ -29,8 +27,6 @@ export function useSecureUplinkFlow({
   initialPrompt = DEFAULT_PROMPT,
   stepDelayMs = 600,
   sendDelayMs = 1500,
-  onTransmit,
-  onSuccess,
 }: UseSecureUplinkFlowOptions = {}) {
   const [messages, setMessages] = useState<SecureUplinkMessage[]>([
     { role: 'ai', text: initialPrompt },
@@ -89,8 +85,6 @@ export function useSecureUplinkFlow({
       e?.preventDefault();
       if (!inputValue.trim()) return;
 
-      onTransmit?.();
-
       const value = inputValue;
       setMessages((prev) => [...prev, { role: 'user', text: value }]);
       setInputValue('');
@@ -118,7 +112,6 @@ export function useSecureUplinkFlow({
             setCurrentStep('sending');
 
             queueTimer(sendTimerRef, () => {
-              onSuccess?.();
               setMessages((prev) => [
                 ...prev,
                 { role: 'ai', text: 'Transmission sent. Stand by for response.' },
@@ -130,7 +123,7 @@ export function useSecureUplinkFlow({
         stepDelayMs
       );
     },
-    [currentStep, inputValue, onSuccess, onTransmit, queueTimer, sendDelayMs, stepDelayMs]
+    [currentStep, inputValue, queueTimer, sendDelayMs, stepDelayMs]
   );
 
   return {

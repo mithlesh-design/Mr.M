@@ -8,7 +8,6 @@ import {
   Code2, Paintbrush, Circle,
 } from 'lucide-react';
 import { usePrecisionMode } from '../context/PrecisionModeContext';
-import { useSound } from '../audio/AudioSystem';
 import ExperimentalLoadoutBay from '../features/arsenal/ExperimentalLoadoutBay';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -119,7 +118,6 @@ const toolIcons: Record<string, React.ElementType> = {
 export default function Arsenal() {
   const [activeCard, setActiveCard] = useState<number | null>(null);
   const { mode } = usePrecisionMode();
-  const { play } = useSound();
 
   React.useEffect(() => {
     document.title = 'Arsenal | Mithlesh Mishra — Capabilities';
@@ -342,7 +340,6 @@ export default function Arsenal() {
                         }}
                         onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)')}
                         onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)')}
-                        onClick={() => play('click')}
                       >
                         <ToolIcon
                           strokeWidth={1.5}

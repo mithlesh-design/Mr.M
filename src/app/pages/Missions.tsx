@@ -3,14 +3,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Target, FileText, Activity, ArrowRight } from 'lucide-react';
-import { useSound } from '../audio/AudioSystem';
 import { missionSummaries } from '../data/missionSummaries';
 
 const categories = ['All', 'AI', 'SaaS', 'Healthcare', 'Enterprise', 'Mobile'];
 
 export default function Missions() {
   const [filter, setFilter] = useState('All');
-  const { play } = useSound();
 
   React.useEffect(() => {
     document.title = 'Missions | Mithlesh Mishra — Case Files';
@@ -45,7 +43,7 @@ export default function Missions() {
             {categories.map(cat => (
               <button
                 key={cat}
-                onClick={() => { play('click'); setFilter(cat); }}
+                onClick={() => setFilter(cat)}
                 className={`font-mono uppercase transition-all duration-200 ${
                   filter === cat
                     ? 'bg-[#FF2A2A] border border-[#FF2A2A] text-white shadow-[0_0_16px_rgba(255,42,42,0.3)]'

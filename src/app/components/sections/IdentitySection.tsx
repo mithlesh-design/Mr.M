@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Activity, Shield, Fingerprint, Crosshair, ArrowRight } from 'lucide-react';
 import { DepthCard } from '../ui/DepthCard';
-import { useSound } from '../../audio/AudioSystem';
 import operativeImg from '@/assets/ID.png';
 
 const timeline = [
@@ -61,7 +60,6 @@ export default function IdentitySection() {
   const [pinnedId, setPinnedId] = useState<number | null>(null);
   const [isHoveringCard, setIsHoveringCard] = useState(false);
   const [hoveredInfoCard, setHoveredInfoCard] = useState<string | null>(null);
-  const { play } = useSound();
 
   return (
     <section
@@ -83,7 +81,7 @@ export default function IdentitySection() {
               depth={20}
               className="w-full rounded-xl overflow-hidden"
               style={{ background: '#080808', border: '1px solid rgba(255,255,255,0.07)' }}
-              onMouseEnter={() => { setIsHoveringCard(true); play('hover'); }}
+              onMouseEnter={() => setIsHoveringCard(true)}
               onMouseLeave={() => setIsHoveringCard(false)}
             >
               {/* Photo area */}
@@ -249,7 +247,7 @@ export default function IdentitySection() {
                   key={index}
                   className="relative cursor-default group"
                   style={{ paddingLeft: '2rem' }}
-                  onMouseEnter={() => { setPinnedId(index); play('hover'); }}
+                  onMouseEnter={() => setPinnedId(index)}
                   onMouseLeave={() => setPinnedId(null)}
                   onPointerDown={(e) => {
                     if (e.pointerType === 'touch') {

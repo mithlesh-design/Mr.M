@@ -1,9 +1,8 @@
-import React, { Suspense, lazy, useState, useEffect, useRef } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import Hero from '../components/sections/Hero';
 import { Timeline } from '../components/layout/Timeline';
-import { useSound } from '../audio/AudioSystem';
 import { SECTION_IDS } from '../constants';
 
 const ImpactMetrics = lazy(() => import('../components/sections/ImpactMetrics'));
@@ -88,9 +87,6 @@ function SectionFallback() {
 export default function Home() {
   const [activeSection, setActiveSection] = useState('hero');
   const location = useLocation();
-  const { play, muted } = useSound();
-  const prevSectionRef = useRef('hero');
-  const enteredSections = useRef<Set<string>>(new Set(['hero']));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -105,19 +101,10 @@ export default function Home() {
         }
       }
       setActiveSection(current);
-
-      // Play sectionEnter sound when entering a new section for the first time
-      if (current !== prevSectionRef.current) {
-        if (!enteredSections.current.has(current)) {
-          enteredSections.current.add(current);
-          play('sectionEnter');
-        }
-        prevSectionRef.current = current;
-      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [play]);
+  }, []);
 
   useEffect(() => {
     const pendingId = sessionStorage.getItem(PENDING_SCROLL_KEY);

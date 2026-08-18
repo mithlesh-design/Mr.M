@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, ShieldCheck, Activity, CheckCircle, Terminal, Lock } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { useSound } from '../../audio/AudioSystem';
 
 interface ContactFormData {
   name: string;
@@ -21,7 +20,6 @@ const contactFields: Array<{
 ];
 
 export default function ContactSection() {
-  const { play } = useSound();
   const [formData, setFormData] = useState<ContactFormData>({ name: '', email: '', message: '' });
   const [currentStep, setCurrentStep] = useState<'form' | 'sending' | 'success'>('form');
   const [fieldFocused, setFieldFocused] = useState(false);
@@ -45,11 +43,9 @@ export default function ContactSection() {
     if (!formData.name || !formData.email || !formData.message) return;
     
     clearSubmitTimer();
-    play('transmit');
     setCurrentStep('sending');
     submitTimerRef.current = setTimeout(() => {
       submitTimerRef.current = null;
-      play('success');
       setCurrentStep('success');
     }, 2500);
   };
@@ -246,7 +242,6 @@ export default function ContactSection() {
                       variant="primary" type="submit"
                       className="w-full justify-center group relative overflow-hidden bg-[#FF2A2A] hover:bg-[#D91E1E] text-white"
                       style={{ padding: '14px', fontWeight: 700, fontSize: '13px', letterSpacing: '0.12em', marginTop: '8px', boxShadow: '0 4px 24px rgba(255,42,42,0.3)' }}
-                      onMouseEnter={() => play('hover')}
                     >
                       <span className="relative z-10 flex items-center justify-center" style={{ gap: '0.6rem' }}>
                         TRANSMIT DATA <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200 ease-out" />
@@ -307,7 +302,6 @@ export default function ContactSection() {
                     <Button variant="outline" onClick={() => setCurrentStep('form')}
                       className="border-white/10 hover:border-[#FF2A2A]/40 hover:bg-[#FF2A2A]/5 text-gray-400 hover:text-white transition-all duration-200 ease-out"
                       style={{ marginTop: '0.5rem', fontSize: '12px', letterSpacing: '0.1em' }}
-                      onMouseEnter={() => play('hover')}
                     >
                       Send Another
                     </Button>

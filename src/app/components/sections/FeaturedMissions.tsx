@@ -4,11 +4,9 @@ import type { EmblaCarouselType } from 'embla-carousel';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useSound } from '../../audio/AudioSystem';
 import { featuredMissions } from '../../data/missionSummaries';
 
 export default function FeaturedMissions() {
-  const { play } = useSound();
   const [emblaRef, emblaApi]   = useEmblaCarousel({ loop: false, align: 'start', dragFree: true });
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeIndex, setActiveIndex]       = useState(0);
@@ -211,7 +209,6 @@ export default function FeaturedMissions() {
 /* ─── Individual Mission Card ─── */
 function MissionCard({ mission }: { mission: typeof featuredMissions[0] }) {
   const [hovered, setHovered] = useState(false);
-  const { play } = useSound();
 
   return (
     <div
@@ -224,7 +221,7 @@ function MissionCard({ mission }: { mission: typeof featuredMissions[0] }) {
         borderColor: hovered ? `${mission.color}35` : 'rgba(255,255,255,0.06)',
         boxShadow: hovered ? `0 20px 60px -10px rgba(0,0,0,0.6), 0 0 30px ${mission.color}10` : 'none',
       }}
-      onMouseEnter={() => { setHovered(true); play('hover'); }}
+      onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {/* Code tab */}

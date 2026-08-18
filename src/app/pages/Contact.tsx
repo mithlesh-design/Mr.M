@@ -3,13 +3,11 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { Send, Terminal, User, ShieldCheck, Activity, CheckCircle } from 'lucide-react';
 import { Button } from '../components/ui/Button';
-import { useSound } from '../audio/AudioSystem';
 import { useSecureUplinkFlow } from '../hooks/useSecureUplinkFlow';
 import contactOperativeImg from '@/assets/8d35a94c1d7f6b0d72893a0d1dabfff6dba525e0.png';
 
 export default function Contact() {
    const navigate = useNavigate();
-   const { play } = useSound();
    const {
       messages,
       currentStep,
@@ -17,10 +15,7 @@ export default function Contact() {
       setInputValue,
       handleSend,
       clearTimers,
-   } = useSecureUplinkFlow({
-      onTransmit: () => play('transmit'),
-      onSuccess: () => play('success'),
-   });
+   } = useSecureUplinkFlow();
 
    useEffect(() => {
       document.title = 'Uplink | Mithlesh Mishra — Secure Contact';

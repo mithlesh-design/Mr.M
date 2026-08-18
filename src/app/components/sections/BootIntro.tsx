@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import MmLogo from '../../assets/icons/MmLogo';
-import { useSound, resumeContext } from '../../audio/AudioSystem';
 
 interface BootIntroProps {
   onComplete: () => void;
@@ -92,7 +91,6 @@ export default function BootIntro({ onComplete }: BootIntroProps) {
   const [statusCount, setStatusCount] = useState(0);
   const [progress, setProgress] = useState(0);
   const progressStarted = useRef(false);
-  const { play } = useSound();
   const bootStarted = useRef(false);
 
   // ── Start the boot sequence (called after user click) ─────────────────────
@@ -100,28 +98,21 @@ export default function BootIntro({ onComplete }: BootIntroProps) {
     if (bootStarted.current) return;
     bootStarted.current = true;
 
-    // Resume AudioContext — this click IS the user gesture the browser needs
-    resumeContext();
-
     setPhase(0);
 
     const run = async () => {
-      play('bootInitialize');                            // power-on surge at boot start
-      await wait(400); setPhase(1); play('bootBeep');   // scan beam + frame corners
-      await wait(900); setPhase(2); play('dataStream'); // name decrypts
-      await wait(1000); setPhase(3);                     // status panel
-      await wait(280); setStatusCount(1); play('bootBeep');
-      await wait(220); setStatusCount(2); play('bootBeep');
-      await wait(220); setStatusCount(3); play('bootBeep');
-      await wait(400); setPhase(4); play('dataStream'); // progress bar
-      await wait(1200); setPhase(5); play('bootComplete'); // ACCESS GRANTED
-      await wait(700); onComplete();                    // exit
+      await wait(400); setPhase(1);   // scan beam + frame corners
+      await wait(900); setPhase(2);   // name decrypts
+      await wait(1000); setPhase(3);  // status panel
+      await wait(280); setStatusCount(1);
+      await wait(220); setStatusCount(2);
+      await wait(220); setStatusCount(3);
+      await wait(400); setPhase(4);   // progress bar
+      await wait(1200); setPhase(5);  // ACCESS GRANTED
+      await wait(700); onComplete();  // exit
     };
     run();
-  }, [onComplete, play]);
-
-  // NOTE:
-  // Keep boot start bound to explicit user gesture so browsers do not block audio.
+  }, [onComplete]);
 
   const handleGateClick = () => {
     sessionStorage.setItem('mm-boot-seen', '1');
@@ -217,16 +208,6 @@ export default function BootIntro({ onComplete }: BootIntroProps) {
               CLICK TO INITIALIZE SYSTEM
             </span>
           </motion.div>
-
-          {/* Bottom hint */}
-          <motion.span
-            className="absolute bottom-10"
-            style={{ fontSize: '8px', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.12)', textTransform: 'uppercase' }}
-            animate={{ opacity: [0.3, 0.7, 0.3] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            AUDIO SYSTEM REQUIRES INTERACTION
-          </motion.span>
         </motion.div>
       )}
 
